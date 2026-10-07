@@ -1,4 +1,4 @@
-# 孤独的美食家 · 餐厅手帖
+# Kodoku no Gourmet · Restaurant Guide
 
 An interactive restaurant guide for **Kodoku no Gourmet / 孤独的美食家**.
 
