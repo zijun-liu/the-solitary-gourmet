@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id);
 const tr=(key,vars)=>window.I18N.t(key,vars);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https:\/\//.test(u||'')?u:'#';
-const mapsUrl=d=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.name+' '+d.address);
+const mapsUrl=window.RestaurantLinks.googleMaps;
 const normalize=s=>String(s).normalize('NFKC').toLowerCase().replace(/\s+/g,'').replace(/[东爱鸟叶冈县]/g,c=>({'东':'東','爱':'愛','鸟':'鳥','叶':'葉','冈':'岡','县':'県'}[c]));
 // Search both languages independently of the language currently displayed.
 const searchText=new Map(DATA.map(d=>[d.id,normalize([
@@ -55,6 +55,7 @@ function row(d){
  return '<tr><td class="episode-cell">S'+String(d.season).padStart(2,'0')+'<span>'+tr('第 {episode} 集',{episode:String(d.episode).padStart(2,'0')})+'</span></td>'+
  '<td class="shop-cell"><a class="shop-link" href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">'+esc(d.name)+'<span class="external" aria-hidden="true">↗</span></a>'+
  (dish?'<div class="dish">'+esc(tr('本集主题 · {dish}',{dish}))+'</div>':'')+
+ '<div class="restaurant-links"><a href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">Google Maps ↗</a>'+RestaurantLinks.tabelogLink(d)+'</div>'+
  (d.status?'<span class="status">'+esc(tr(d.status))+'</span>':'')+
  (d.addressAlternatives.length?'<span class="status conflict">'+tr('地址需核对')+'</span>':'')+'</td>'+
  '<td class="cuisine-cell">'+d.cuisines.map(c=>'<span class="cuisine-tag">'+esc(I18N.cuisine(c))+'</span>').join('')+'</td>'+
@@ -102,7 +103,9 @@ function renderDetail(d){
  '<dt>'+tr('本集主题')+'</dt><dd>'+esc(I18N.theme(d)||tr('来源未列出'))+'</dd>'+(d.dish?'<dt>'+tr('来源原文')+'</dt><dd lang="ja">'+esc(d.dish)+'</dd>':'')+
  (d.status?'<dt>'+tr('来源所载状态')+'</dt><dd>'+esc(tr('{status}（出发前请再次确认）',{status:tr(d.status)}))+'</dd>':'')+
  (d.addressAlternatives.length?'<dt>'+tr('其他地址记录 · 请核对搬迁情况')+'</dt><dd>'+d.addressAlternatives.map(a=>esc(a.address)+'<br>'+sourceLink(a.source)).join('<br><br>')+'</dd>':'')+
- '</dl><a class="dialog-map" href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer">'+tr('在 Google Maps 中查看 ↗')+'</a><h3>'+tr('相关资料')+'</h3><ul class="source-list">'+[...new Set([...d.sources,d.shopSource].filter(Boolean))].map(u=>'<li>'+sourceLink(u)+'</li>').join('')+'</ul>';
+ '</dl><div class="dialog-actions"><a class="dialog-map" href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer">'+tr('在 Google Maps 中查看 ↗')+'</a>'+RestaurantLinks.tabelogLink(d,'dialog-map')+'</div>'+
+ (!RestaurantLinks.tabelog(d).direct?'<p class="source-note">'+tr('尚未确认此店的 Tabelog 页面；点击按店名搜索。')+'</p>':'')+
+ '<h3>'+tr('相关资料')+'</h3><ul class="source-list">'+[...new Set([...d.sources,d.shopSource].filter(Boolean))].map(u=>'<li>'+sourceLink(u)+'</li>').join('')+'</ul>';
 }
 function showDetail(d){if(!d)return;detailId=d.id;renderDetail(d);if(!$('detailDialog').open)$('detailDialog').showModal();}
 document.querySelectorAll('.dialog-close').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
@@ -117,7 +120,7 @@ function turnPage(delta){state.page+=delta;render();$('results').scrollIntoView(
 $('prevPage').addEventListener('click',()=>turnPage(-1));$('nextPage').addEventListener('click',()=>turnPage(1));
 const csvCell=v=>'"'+String(/^[=+@\-]/.test(String(v))?'\''+v:v??'').replace(/"/g,'""')+'"';
 $('exportButton').addEventListener('click',()=>{
- const rows=[['季','集','店名','地址','菜系','Google Maps','本集主题','来源状态','地址来源'].map(key=>tr(key)),...matched.map(d=>[d.season,d.episode,d.name,d.address,d.cuisines.map(c=>I18N.cuisine(c)).join(' / '),mapsUrl(d),I18N.theme(d),tr(d.status),d.addressSource])];
+ const rows=[['季','集','店名','地址','菜系','Google Maps','Tabelog','Tabelog 链接类型','本集主题','来源状态','地址来源'].map(key=>tr(key)),...matched.map(d=>[d.season,d.episode,d.name,d.address,d.cuisines.map(c=>I18N.cuisine(c)).join(' / '),mapsUrl(d),RestaurantLinks.tabelog(d).url,tr(RestaurantLinks.tabelog(d).direct?'店铺页面':'店名搜索'),I18N.theme(d),tr(d.status),d.addressSource])];
  const blob=new Blob(['\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8;'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(I18N.lang==='en'?'kodoku-gourmet-':'孤独的美食家-')+(state.season?'S'+state.season:'restaurants')+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);notify(tr('已导出 {n} 条记录',{n:matched.length}));
 });

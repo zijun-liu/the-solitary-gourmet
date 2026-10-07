@@ -10,7 +10,8 @@ An interactive restaurant guide for **Kodoku no Gourmet / 孤独的美食家**.
 - Switch between English and Chinese using the buttons in the upper-right corner.
 - Explore restaurant locations on an interactive map, including season and search filters.
 - Search by restaurant name, address, cuisine, region, or episode theme.
-- Open restaurant names in Google Maps for details and directions.
+- Open restaurant names in Google Maps for details and directions; use the adjacent Tabelog links for listings and reviews.
+- Access both services from restaurant rows, map popups, detail views, and CSV exports.
 - Save favorites in your own browser and export the filtered list to CSV.
 - View the address, cuisine, and coordinate sources for each restaurant.
 
@@ -32,7 +33,7 @@ Main references:
 - [MapShelf](https://mapshelf.app/maps/kodokunogourmet)
 - [TV Tokyo: Season 11 shops](https://www.tv-tokyo.co.jp/kodokunogurume11/shop/)
 
-Map rendering uses OpenFreeMap, with OpenMapTiles and OpenStreetMap data. Restaurant links open Google Maps.
+Map rendering uses OpenFreeMap, with OpenMapTiles and OpenStreetMap data. Restaurant links open Google Maps and Tabelog. Tabelog links use source listings or listings matched by restaurant name and address; entries without a confirmed listing show “Search Tabelog” and open a name search. The CSV includes the link type.
 
 ## Hosting and updates
 

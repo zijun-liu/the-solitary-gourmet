@@ -6,7 +6,7 @@ window.RestaurantMap=(()=>{
  const positioned=d=>Number.isFinite(d.lat)&&Number.isFinite(d.lng);
  const text=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const t=(key,vars)=>I18N.t(key,vars);
- const maps=d=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.name+' '+d.address);
+ const maps=window.RestaurantLinks.googleMaps;
  const el=id=>document.getElementById(id);
  function fit(records=shown){const points=records.filter(positioned).map(d=>[d.lat,d.lng]);if(points.length)map.fitBounds(L.latLngBounds(points),{padding:[35,35],maxZoom:15,animate:false});else map.setView([35.68,139.76],9);}
  function country(d){return d.area==='台湾'?'台湾':d.area==='韩国'?'韩国':'日本';}
@@ -20,7 +20,7 @@ window.RestaurantMap=(()=>{
   return '<div class="map-popup"><div class="map-popup-episode">'+episode(d)+'</div><a class="map-popup-name" href="'+maps(d)+'" target="_blank" rel="noopener noreferrer">'+text(d.name)+' ↗</a><p>'+text(d.cuisines.map(c=>I18N.cuisine(c)).join(' / '))+'</p><p class="map-popup-address">'+text(d.address)+'</p>'+
   (d.status?'<span class="status">'+text(t(d.status))+'</span>':'')+
   (d.coordPrecision==='approx'?'<p class="map-approx">'+t('约略位置 · 请用 Google Maps 核对具体店址')+'</p>':'')+
-  '<div class="map-popup-actions"><a href="'+maps(d)+'" target="_blank" rel="noopener noreferrer">Google Maps ↗</a><button type="button" data-map-detail="'+text(d.id)+'">'+t('详情与来源')+'</button></div></div>';
+  '<div class="map-popup-actions"><a href="'+maps(d)+'" target="_blank" rel="noopener noreferrer">Google Maps ↗</a>'+RestaurantLinks.tabelogLink(d)+'<button type="button" data-map-detail="'+text(d.id)+'">'+t('详情与来源')+'</button></div></div>';
  }
  function localizeControls(){
   [['.leaflet-control-zoom-in','放大'],['.leaflet-control-zoom-out','缩小'],['.leaflet-popup-close-button','关闭地图弹窗']].forEach(([selector,key])=>{
