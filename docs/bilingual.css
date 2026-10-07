@@ -1,0 +1,39 @@
+.topbar-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.language-switch{display:flex;align-items:center;border:1px solid var(--line);border-radius:6px;background:white;padding:3px;gap:2px}
+.language-switch button{border:0;border-radius:4px;background:transparent;color:var(--muted);min-height:32px;padding:4px 10px;font-size:12px;line-height:1.5}
+.language-switch button[aria-pressed="true"]{background:var(--ink);color:white}
+.language-switch button:hover:not([aria-pressed="true"]){background:var(--wash);color:var(--ink)}
+#exportButton span[data-i18n]{margin-right:0}
+.topbar-label .trail-label{margin:0;color:var(--muted)}
+html[lang="en"]{--display:Georgia,"Times New Roman",serif}
+html[lang="en"] .brand{font-size:15px;letter-spacing:0}
+html[lang="en"] .brand small{font-size:8px}
+html[lang="en"] .intro h1{letter-spacing:0}
+html[lang="en"] .eyebrow{letter-spacing:1px}
+.map-heading>div:first-child{min-width:0}
+.list-heading>div{flex-wrap:wrap;gap:4px 14px}
+.map-legend span[data-i18n]{margin:0}
+@media(max-width:1150px){.topbar-label .trail-label{display:none}.topbar-actions{gap:8px}html[lang="en"] .brand{font-size:13px}}
+@media(max-width:820px){.topbar{min-height:67px;height:auto;padding:12px 0}.language-switch button{min-height:32px}.list-heading>div{gap:3px 9px}}
+@media(max-width:580px){
+ .topbar{flex-wrap:wrap;gap:9px;justify-content:flex-end}
+ .topbar-label{margin-right:auto;max-width:none;font-size:8px}
+ .topbar-actions{gap:6px}
+ .language-switch{padding:2px}
+ .language-switch button{padding:4px 8px;font-size:11px;min-height:32px}
+ #exportButton{font-size:10px;min-height:36px}
+ html[lang="en"] .brand{font-size:12px;gap:8px}
+ html[lang="en"] .brand small{font-size:7px}
+ html[lang="en"] .favorite-nav{font-size:10px;gap:4px}
+ .map-heading{flex-wrap:wrap;gap:8px}
+ .map-actions{padding:0;gap:6px}
+ .map-actions .quiet-button{min-height:32px;font-size:10px}
+ .map-caption>span{min-width:0;overflow-wrap:anywhere}
+ .filters{align-items:flex-end}
+ .filters label{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+ .filters select{max-width:130px}
+ .reset{min-height:32px}
+ .pagination .quiet-button{min-height:32px}
+ .dialog-top{gap:12px}
+ .dialog-close{flex-shrink:0}
+}
