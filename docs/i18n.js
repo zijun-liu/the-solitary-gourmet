@@ -1,6 +1,12 @@
 'use strict';
 window.I18N=(()=>{
  const en={
+  '餐厅手帖':'Restaurant guide','页内导航':'On this page','地图':'Map','餐厅列表':'Restaurants',
+  '按季寻找五郎去过的店，在地图上选好下一顿。':'Explore the places Goro visited, season by season. Find your next meal on the map.',
+  '点击数字展开餐厅，点击标记查看详情。':'Select a number to expand places, or a pin for details.',
+  '搜索店名、地点或菜系…':'Search restaurants, places, cuisines…',
+  '关于这份手帖':'About this guide',
+
   '孤独的美食家 · 餐厅手帖':'Kodoku no Gourmet · Restaurant Guide',
   '孤独的美食家':'Kodoku no Gourmet','餐厅手帖 / RESTAURANT NOTES':'RESTAURANT NOTES',
   '跳到餐厅列表':'Skip to restaurants','餐厅手帖首页':'Restaurant guide home',
@@ -8,7 +14,7 @@ window.I18N=(()=>{
   '全部餐厅':'All restaurants','第 {season} 季':'Season {season}',
   '第 {season} 季的餐厅':'Season {season} restaurants','我的收藏':'My favorites',
   '第 1—11 季 · 正片全季':'Seasons 1–11 · Regular episodes',
-  '数据来源与收录范围 ↗':'Sources & coverage ↗','数据来源与收录范围':'Sources & coverage',
+  '数据来源与收录范围 ↗':'Sources & coverage','数据来源与收录范围':'Sources & coverage',
   '井之头五郎的美食足迹':'Goro’s food trail','导出当前列表':'Export list',
   '语言':'Language','「腹が、減った。」':'“I’m hungry.”',
   '下一顿，跟着五郎吃。':'Your next meal, with Goro.',
@@ -16,7 +22,7 @@ window.I18N=(()=>{
   '点击餐厅名字，在 Google Maps 中查看。':'Click a restaurant name to open Google Maps.',
   '一店，一集，一顿好饭。':'One episode. One great meal.',
   '先看位置，再选下一顿':'Find a place for your next meal',
-  '全部餐厅地图':'All restaurants · Map','{title}地图':'{title} · Map',
+  '全部餐厅地图':'Restaurant map','{title}地图':'{title} map',
   '显示全部地点':'Show all places','全屏查看餐厅地图':'View restaurant map fullscreen',
   '全屏':'Fullscreen','退出全屏':'Exit fullscreen','快速查看地图地区':'Explore map regions',
   '互动餐厅位置地图':'Interactive restaurant map','当前筛选没有可定位的餐厅。':'No mapped restaurants match these filters.',
@@ -48,7 +54,7 @@ window.I18N=(()=>{
   '请启用 JavaScript 以搜索和查看餐厅列表。':'Enable JavaScript to search and view the restaurant list.',
   '{n} 条餐厅记录 · {episodes} 集':'Records: {n} · Episodes: {episodes}',
   '第 {episode} 集':'Episode {episode}','第 {season} 季 · 第 {episode} 集':'Season {season} · Episode {episode}',
-  '本集主题 · {dish}':'Episode dishes · {dish}',
+  '本集主题 · {dish}':'Episode dishes: {dish}',
   '{name}，在 Google Maps 中查看':'Open {name} in Google Maps',
   '地址需核对':'Address needs checking','详细地址待确认':'Detailed address unconfirmed',
   '地图定位':'Locate on map','约略位置':'Approximate location','位置待确认':'Location unconfirmed',
@@ -138,6 +144,7 @@ window.I18N=(()=>{
   ]
  ];
  const zh={
+  '数据来源与收录范围 ↗':'数据来源与收录范围','本集主题 · {dish}':'本集主题：{dish}',
   '来源说明':'每家店的详情中另列地址及菜系来源。来源未直接给出菜系时，按店铺类型或本集主题归类，并标为「料理归类」。地址冲突会保留另一版本供核对；「已闭店」「已搬迁」表示来源中的记录，未经逐店实时核实。地图链接使用店名与地址搜索，未保证唯一店铺匹配。',
   '地图资料说明':'采集日期：2026 年 10 月 4 日。餐厅资料可离线查看；互动地图底图、Google Maps 和外部来源需要联网。地图坐标来自 MapShelf 和日本国土地理院地址定位，其他来源列于店铺详情。约略位置以虚线标记；移动餐车等固定位置未查证的店铺暂不放置标记。',
   '翻译说明':'店名与地址保留原文，方便查询与导航。本集主题提供中文及英文翻译；资料来源的原文可在详情中查看。'

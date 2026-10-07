@@ -37,8 +37,14 @@ function nav(){
  $('seasonNav').innerHTML=Array.from({length:12},(_,s)=>{
   const n=s?DATA.filter(d=>d.season===s).length:DATA.length;
   const active=state.season===s&&!state.favorites;
-  return '<button type="button" class="season-button '+(active?'active':'')+'" data-season="'+s+'" aria-pressed="'+active+'"><span class="season-number">'+(s?String(s).padStart(2,'0'):'ALL')+'</span><span>'+tr(s?'第 {season} 季':'全部餐厅',{season:s})+'</span><span class="nav-count">'+n+'</span></button>';
+  return '<button type="button" class="season-button '+(active?'active':'')+'" data-season="'+s+'" aria-pressed="'+active+'"><span>'+tr(s?'第 {season} 季':'全部餐厅',{season:s})+'</span><span class="nav-count">'+n+'</span></button>';
  }).join('');
+ const activeButton=$('seasonNav').querySelector('.active');
+ if(activeButton&&$('seasonNav').scrollWidth>$('seasonNav').clientWidth){
+  const navBounds=$('seasonNav').getBoundingClientRect(),buttonBounds=activeButton.getBoundingClientRect();
+  if(buttonBounds.left<navBounds.left)$('seasonNav').scrollLeft-=navBounds.left-buttonBounds.left;
+  else if(buttonBounds.right>navBounds.right)$('seasonNav').scrollLeft+=buttonBounds.right-navBounds.right;
+ }
  $('favoriteNav').classList.toggle('active',state.favorites);$('favoriteNav').setAttribute('aria-pressed',String(state.favorites));$('favoriteCount').textContent=favorites.size;
 }
 function syncUrl(){
@@ -53,9 +59,9 @@ function applyFilters(records,s){
 function row(d){
  const dish=I18N.theme(d),saved=favorites.has(d.id);
  return '<tr><td class="episode-cell">S'+String(d.season).padStart(2,'0')+'<span>'+tr('第 {episode} 集',{episode:String(d.episode).padStart(2,'0')})+'</span></td>'+
- '<td class="shop-cell"><a class="shop-link" href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">'+esc(d.name)+'<span class="external" aria-hidden="true">↗</span></a>'+
+ '<td class="shop-cell"><a class="shop-link" href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">'+esc(d.name)+'</a>'+
  (dish?'<div class="dish">'+esc(tr('本集主题 · {dish}',{dish}))+'</div>':'')+
- '<div class="restaurant-links"><a href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">Google Maps ↗</a>'+RestaurantLinks.tabelogLink(d)+'</div>'+
+ '<div class="restaurant-links"><a href="'+mapsUrl(d)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(tr('{name}，在 Google Maps 中查看',{name:d.name}))+'">Google Maps</a>'+RestaurantLinks.tabelogLink(d)+'</div>'+
  (d.status?'<span class="status">'+esc(tr(d.status))+'</span>':'')+
  (d.addressAlternatives.length?'<span class="status conflict">'+tr('地址需核对')+'</span>':'')+'</td>'+
  '<td class="cuisine-cell">'+d.cuisines.map(c=>'<span class="cuisine-tag">'+esc(I18N.cuisine(c))+'</span>').join('')+'</td>'+
@@ -64,6 +70,9 @@ function row(d){
  '<td class="actions-cell"><div class="row-actions"><button type="button" class="icon-button '+(saved?'saved':'')+'" data-favorite="'+d.id+'" aria-label="'+esc(tr(saved?'取消收藏 {name}':'收藏 {name}',{name:d.name}))+'" aria-pressed="'+saved+'">'+(saved?'★':'☆')+'</button><button type="button" class="icon-button detail-button" data-detail="'+d.id+'" aria-label="'+esc(tr('查看 {name} 的详情和来源',{name:d.name}))+'">⋯</button></div></td></tr>';
 }
 function render(){
+ const focused=document.activeElement;
+ const focusKey=focused?.matches('[data-season],[data-favorite],[data-detail]')?['data-season','data-favorite','data-detail'].find(key=>focused.hasAttribute(key)):null;
+ const focusValue=focusKey?focused.getAttribute(focusKey):null;
  matched=applyFilters(DATA,state).sort((a,b)=>state.sort==='name'?a.name.localeCompare(b.name,'ja'):state.sort==='region'?I18N.area(a.area).localeCompare(I18N.area(b.area),I18N.lang==='en'?'en':'zh-CN')||a.season-b.season||a.episode-b.episode:a.season-b.season||a.episode-b.episode||a.order-b.order);
  const pages=Math.max(1,Math.ceil(matched.length/PAGE_SIZE));state.page=Math.min(state.page,pages);
  const current=matched.slice((state.page-1)*PAGE_SIZE,state.page*PAGE_SIZE);
@@ -74,6 +83,7 @@ function render(){
  $('pageInfo').textContent=matched.length?tr('{start}—{end} / {n} 条',{start:(state.page-1)*PAGE_SIZE+1,end:Math.min(state.page*PAGE_SIZE,matched.length),n:matched.length}):tr('0 条记录');
  $('prevPage').disabled=state.page<=1;$('nextPage').disabled=state.page>=pages;
  nav();syncUrl();window.RestaurantMap.update(matched,$('listTitle').textContent);
+ if(focusKey){const replacement=document.querySelector('['+focusKey+'="'+focusValue+'"]');(replacement||$('favoriteNav')).focus({preventScroll:true});}
 }
 function reset(){Object.assign(state,{season:0,q:'',cuisine:'',region:'',favorites:false,page:1,sort:'episode'});$('search').value='';$('region').value='';$('cuisine').value='';$('sort').value='episode';render();}
 function change(){state.page=1;render();}
@@ -82,7 +92,7 @@ $('favoriteNav').addEventListener('click',()=>{state.favorites=!state.favorites;
 $('search').addEventListener('input',e=>{state.q=e.target.value;change();});
 ['region','cuisine','sort'].forEach(id=>$(id).addEventListener('change',e=>{state[id]=e.target.value;change();}));
 $('resetButton').addEventListener('click',reset);
-document.querySelector('.brand').addEventListener('click',e=>{e.preventDefault();reset();window.scrollTo({top:0,behavior:'smooth'});});
+document.querySelector('.brand').addEventListener('click',e=>{e.preventDefault();reset();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
 $('restaurantRows').addEventListener('click',e=>{
  const f=e.target.closest('[data-favorite]'),detail=e.target.closest('[data-detail]'),locate=e.target.closest('[data-locate]');
  if(f){const id=f.dataset.favorite,was=favorites.has(id);was?favorites.delete(id):favorites.add(id);saveFavorites();render();notify(tr(was?'已取消收藏':storageWorks?'已加入收藏':'已收藏；当前浏览器无法保存到下次访问'));}
@@ -97,7 +107,7 @@ function sourceName(u){
 const sourceLink=u=>'<a href="'+esc(safeUrl(u))+'" target="_blank" rel="noopener noreferrer">'+esc(sourceName(u))+' ↗</a>';
 function renderDetail(d){
  $('dialogEyebrow').textContent=tr('第 {season} 季 · 第 {episode} 集',{season:d.season,episode:d.episode});
- $('dialogContent').innerHTML='<h2>'+esc(d.name)+'</h2><dl class="detail-grid"><dt>'+tr('地址')+'</dt><dd>'+esc(d.address||tr('详细地址待确认'))+'<br>'+sourceLink(d.addressSource)+'</dd>'+
+ $('dialogContent').innerHTML='<h2 id="detailTitle">'+esc(d.name)+'</h2><dl class="detail-grid"><dt>'+tr('地址')+'</dt><dd>'+esc(d.address||tr('详细地址待确认'))+'<br>'+sourceLink(d.addressSource)+'</dd>'+
  (Number.isFinite(d.lat)?'<dt>'+tr(d.coordPrecision==='approx'?'地图位置 · 约略定位':'地图位置')+'</dt><dd>'+esc(d.coordAddress)+'<br>'+sourceLink(d.coordSource)+'</dd>':'<dt>'+tr('地图位置')+'</dt><dd>'+tr('固定位置待确认，暂不放置地图标记。')+'</dd>')+
  '<dt>'+tr('菜系')+'</dt><dd>'+esc(d.cuisines.map(c=>I18N.cuisine(c)).join(' / '))+(d.cuisineRaw?'<br><span class="source-note">'+esc(tr('来源分类：{cuisine}',{cuisine:d.cuisineRaw}))+'</span>':'')+'<br>'+(d.cuisineSource?sourceLink(d.cuisineSource):'<span class="source-note">'+tr('料理归类 · 按店铺类型或本集主题整理')+'</span>')+'</dd>'+
  '<dt>'+tr('本集主题')+'</dt><dd>'+esc(I18N.theme(d)||tr('来源未列出'))+'</dd>'+(d.dish?'<dt>'+tr('来源原文')+'</dt><dd lang="ja">'+esc(d.dish)+'</dd>':'')+

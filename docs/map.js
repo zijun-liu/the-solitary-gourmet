@@ -82,11 +82,11 @@ window.RestaurantMap=(()=>{
   clusters.clearLayers();markers.clear();
   known.forEach(d=>{
    const icon=L.divIcon({html:'<span style="--pin-color:'+colors[d.season-1]+'" class="restaurant-pin '+(d.coordPrecision==='approx'?'approx':'')+'">'+String(d.episode).padStart(2,'0')+'</span>',className:'restaurant-marker',iconSize:[32,36],iconAnchor:[16,36],popupAnchor:[0,-31]});
-   const marker=L.marker([d.lat,d.lng],{icon,title:episode(d)+' · '+d.name,alt:d.name,keyboard:true}).bindPopup(popup(d),{maxWidth:300});
+   const marker=L.marker([d.lat,d.lng],{icon,title:episode(d)+' · '+d.name,alt:d.name,keyboard:true}).bindPopup(popup(d),{minWidth:220,maxWidth:280,autoPanPadding:[12,12],keepInView:true});
    markers.set(d.id,marker);clusters.addLayer(marker);
   });
   shortcuts();requestAnimationFrame(()=>{map.invalidateSize();fit();});
  }
- function locate(id){const m=markers.get(id);if(!m)return;el('mapSection').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});clusters.zoomToShowLayer(m,()=>{map.setView(m.getLatLng(),Math.max(map.getZoom(),16));m.openPopup();});}
+ function locate(id){const m=markers.get(id);if(!m)return;el('mapSection').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});clusters.zoomToShowLayer(m,()=>{map.setView(m.getLatLng(),Math.max(map.getZoom(),16),{animate:false});m.openPopup();});}
  return {update,locate};
 })();

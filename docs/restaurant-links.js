@@ -28,7 +28,7 @@ window.RestaurantLinks=(()=>{
  function tabelogLink(d,className=''){
   const link=tabelog(d),label=I18N.t(link.direct?'Tabelog':'搜索 Tabelog');
   const description=I18N.t(link.direct?'在 Tabelog 中查看 {name}':'在 Tabelog 中搜索 {name}',{name:d.name});
-  return '<a class="tabelog-link '+escape(className)+'" href="'+escape(link.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+escape(description)+'"'+(link.direct?'':' title="'+escape(I18N.t('尚未确认此店的 Tabelog 页面；点击按店名搜索。'))+'"')+'>'+escape(label)+' ↗</a>';
+  return '<a class="tabelog-link '+escape(className)+'" href="'+escape(link.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+escape(description)+'"'+(link.direct?'':' title="'+escape(I18N.t('尚未确认此店的 Tabelog 页面；点击按店名搜索。'))+'"')+'>'+escape(label)+'</a>';
  }
  return {googleMaps,tabelog,tabelogLink};
 })();

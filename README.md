@@ -8,6 +8,7 @@ An interactive restaurant guide for **Kodoku no Gourmet / 孤独的美食家**.
 
 - Browse seasons 1–11: 132 episodes and 197 restaurant appearance records.
 - Switch between English and Chinese using the buttons in the upper-right corner.
+- Jump between the map and restaurant list; use readable mobile entries with full sorting controls and larger touch targets.
 - Explore restaurant locations on an interactive map, including season and search filters.
 - Search by restaurant name, address, cuisine, region, or episode theme.
 - Open restaurant names in Google Maps for details and directions; use the adjacent Tabelog links for listings and reviews.
