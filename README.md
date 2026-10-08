@@ -1,6 +1,6 @@
-# Kodoku no Gourmet · Restaurant Guide
+# The Solitary Gourmet · Restaurant Guide
 
-An interactive restaurant guide for **Kodoku no Gourmet / 孤独的美食家**.
+An interactive restaurant guide for **The Solitary Gourmet** (Japanese: **孤独のグルメ**; Chinese: **孤独的美食家**).
 
 **[Open the restaurant guide](https://zijun-liu.github.io/kodoku-gourmet-guide/)**
 

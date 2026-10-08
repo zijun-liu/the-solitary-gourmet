@@ -7,8 +7,8 @@ window.I18N=(()=>{
   '搜索店名、地点或菜系…':'Search restaurants, places, cuisines…',
   '关于这份手帖':'About this guide',
 
-  '孤独的美食家 · 餐厅手帖':'Kodoku no Gourmet · Restaurant Guide',
-  '孤独的美食家':'Kodoku no Gourmet','餐厅手帖 / RESTAURANT NOTES':'RESTAURANT NOTES',
+  '孤独的美食家 · 餐厅手帖':'The Solitary Gourmet · Restaurant Guide',
+  '孤独的美食家':'The Solitary Gourmet','餐厅手帖 / RESTAURANT NOTES':'RESTAURANT NOTES',
   '跳到餐厅列表':'Skip to restaurants','餐厅手帖首页':'Restaurant guide home',
   '跟着五郎，按季寻找':'Follow Goro, season by season','选择季数':'Choose a season',
   '全部餐厅':'All restaurants','第 {season} 季':'Season {season}',

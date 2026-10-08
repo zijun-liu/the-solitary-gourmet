@@ -132,7 +132,7 @@ const csvCell=v=>'"'+String(/^[=+@\-]/.test(String(v))?'\''+v:v??'').replace(/"/
 $('exportButton').addEventListener('click',()=>{
  const rows=[['季','集','店名','地址','菜系','Google Maps','Tabelog','Tabelog 链接类型','本集主题','来源状态','地址来源'].map(key=>tr(key)),...matched.map(d=>[d.season,d.episode,d.name,d.address,d.cuisines.map(c=>I18N.cuisine(c)).join(' / '),mapsUrl(d),RestaurantLinks.tabelog(d).url,tr(RestaurantLinks.tabelog(d).direct?'店铺页面':'店名搜索'),I18N.theme(d),tr(d.status),d.addressSource])];
  const blob=new Blob(['\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8;'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(I18N.lang==='en'?'kodoku-gourmet-':'孤独的美食家-')+(state.season?'S'+state.season:'restaurants')+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);notify(tr('已导出 {n} 条记录',{n:matched.length}));
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(I18N.lang==='en'?'the-solitary-gourmet-':'孤独的美食家-')+(state.season?'S'+state.season:'restaurants')+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);notify(tr('已导出 {n} 条记录',{n:matched.length}));
 });
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='/'){e.preventDefault();$('search').focus();}});
 window.addEventListener('languagechange',()=>{
