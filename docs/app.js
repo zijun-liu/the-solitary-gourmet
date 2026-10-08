@@ -65,7 +65,7 @@ function row(d){
  (d.status?'<span class="status">'+esc(tr(d.status))+'</span>':'')+
  (d.addressAlternatives.length?'<span class="status conflict">'+tr('地址需核对')+'</span>':'')+'</td>'+
  '<td class="cuisine-cell">'+d.cuisines.map(c=>'<span class="cuisine-tag">'+esc(I18N.cuisine(c))+'</span>').join('')+'</td>'+
- '<td class="address-cell"><div class="address">'+esc(d.address||tr('详细地址待确认'))+'</div><div class="area-label">'+esc(I18N.area(d.area))+
+ '<td class="address-cell"><div class="address">'+esc(tr(d.address||'详细地址待确认'))+'</div><div class="area-label">'+esc(I18N.area(d.area))+
  (Number.isFinite(d.lat)?' · <button type="button" class="locate-link" data-locate="'+d.id+'" aria-label="'+esc(tr('在地图上定位 {name}',{name:d.name}))+'">'+tr(d.coordPrecision==='approx'?'约略位置':'地图定位')+'</button>':' · '+tr('位置待确认'))+'</div></td>'+
  '<td class="actions-cell"><div class="row-actions"><button type="button" class="icon-button '+(saved?'saved':'')+'" data-favorite="'+d.id+'" aria-label="'+esc(tr(saved?'取消收藏 {name}':'收藏 {name}',{name:d.name}))+'" aria-pressed="'+saved+'">'+(saved?'★':'☆')+'</button><button type="button" class="icon-button detail-button" data-detail="'+d.id+'" aria-label="'+esc(tr('查看 {name} 的详情和来源',{name:d.name}))+'">⋯</button></div></td></tr>';
 }
@@ -107,7 +107,7 @@ function sourceName(u){
 const sourceLink=u=>'<a href="'+esc(safeUrl(u))+'" target="_blank" rel="noopener noreferrer">'+esc(sourceName(u))+' ↗</a>';
 function renderDetail(d){
  $('dialogEyebrow').textContent=tr('第 {season} 季 · 第 {episode} 集',{season:d.season,episode:d.episode});
- $('dialogContent').innerHTML='<h2 id="detailTitle">'+esc(d.name)+'</h2><dl class="detail-grid"><dt>'+tr('地址')+'</dt><dd>'+esc(d.address||tr('详细地址待确认'))+'<br>'+sourceLink(d.addressSource)+'</dd>'+
+ $('dialogContent').innerHTML='<h2 id="detailTitle">'+esc(d.name)+'</h2><dl class="detail-grid"><dt>'+tr('地址')+'</dt><dd>'+esc(tr(d.address||'详细地址待确认'))+'<br>'+sourceLink(d.addressSource)+'</dd>'+
  (Number.isFinite(d.lat)?'<dt>'+tr(d.coordPrecision==='approx'?'地图位置 · 约略定位':'地图位置')+'</dt><dd>'+esc(d.coordAddress)+'<br>'+sourceLink(d.coordSource)+'</dd>':'<dt>'+tr('地图位置')+'</dt><dd>'+tr('固定位置待确认，暂不放置地图标记。')+'</dd>')+
  '<dt>'+tr('菜系')+'</dt><dd>'+esc(d.cuisines.map(c=>I18N.cuisine(c)).join(' / '))+(d.cuisineRaw?'<br><span class="source-note">'+esc(tr('来源分类：{cuisine}',{cuisine:d.cuisineRaw}))+'</span>':'')+'<br>'+(d.cuisineSource?sourceLink(d.cuisineSource):'<span class="source-note">'+tr('料理归类 · 按店铺类型或本集主题整理')+'</span>')+'</dd>'+
  '<dt>'+tr('本集主题')+'</dt><dd>'+esc(I18N.theme(d)||tr('来源未列出'))+'</dd>'+(d.dish?'<dt>'+tr('来源原文')+'</dt><dd lang="ja">'+esc(d.dish)+'</dd>':'')+

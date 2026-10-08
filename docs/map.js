@@ -64,7 +64,7 @@ window.RestaurantMap=(()=>{
   const known=records.filter(positioned),missing=records.filter(d=>!positioned(d)),approx=known.filter(d=>d.coordPrecision==='approx');
   el('mapCount').textContent=t('{known} / {total} 条记录已显示',{known:known.length,total:records.length})+(approx.length?t(' · {n} 处为约略位置',{n:approx.length}):'')+(missing.length?t(' · {n} 处位置待确认',{n:missing.length}):'');
   el('unmappedNote').hidden=!missing.length;el('unmappedSummary').textContent=t('{n} 家餐厅的位置待确认',{n:missing.length});
-  el('unmappedList').innerHTML=missing.map(d=>'<p><a href="'+maps(d)+'" target="_blank" rel="noopener noreferrer">'+text(d.name)+' ↗</a><span>'+episode(d)+' · '+text(d.address)+'</span></p>').join('');
+  el('unmappedList').innerHTML=missing.map(d=>'<p><a href="'+maps(d)+'" target="_blank" rel="noopener noreferrer">'+text(d.name)+' ↗</a><span>'+episode(d)+' · '+text(t(d.address))+'</span></p>').join('');
   el('mapEmpty').hidden=!!known.length;
   if(!map&&!init())return;
   const signature=known.map(d=>d.id).sort().join('|'),languageChanged=lastLanguage!==I18N.lang;

@@ -98,6 +98,7 @@ window.I18N=(()=>{
   '{known} / {total} 条记录已显示':'{known} / {total} records on map',
   ' · {n} 处为约略位置':' · Approximate: {n}',' · {n} 处位置待确认':' · Unconfirmed: {n}',
   '{n} 家餐厅的位置待确认':'Unconfirmed restaurant locations: {n}',
+  '韩国首尔（移动餐车，固定地址未查证）':'Seoul, South Korea (mobile food truck; fixed address unconfirmed)',
   '{n} 条店铺记录，点击展开':'{n} restaurant records; click to expand',
   '放大':'Zoom in','缩小':'Zoom out','关闭地图弹窗':'Close map popup',
   '固定地址待确认':'Fixed address unconfirmed','已搬迁':'Reported relocated','已闭店':'Reported closed',
