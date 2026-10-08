@@ -2,7 +2,7 @@
 
 An interactive restaurant guide for **The Solitary Gourmet** (Japanese: **孤独のグルメ**; Chinese: **孤独的美食家**).
 
-**[Open the restaurant guide](https://zijun-liu.github.io/kodoku-gourmet-guide/)**
+**[Open the restaurant guide](https://zijun-liu.github.io/the-solitary-gourmet/)**
 
 ## Features
 
